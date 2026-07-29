@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simulator Ketahanan Pangan &amp; Kebijakan Jawa Timur 2026</title>
+<meta name="description" content="Simulator interaktif guncangan pangan dan kebijakan untuk 38 kabupaten/kota Jawa Timur, berbasis matriks Input-Output Antarkabupaten/Kota (IO-AKI) dan nowcasting machine learning.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="kop">
+  <div class="wrap">
+    <div class="kop-atas">
+      <div class="lembaga">Simulator Kebijakan Regional &middot; 38 Kabupaten/Kota</div>
+      <div class="tahun">EJAVEC 2026 &middot; IO-AKI 38&times;17</div>
+    </div>
+    <h1 class="judul">Ketika guncangan datang, <em>wilayah mana</em> yang lebih dulu goyah?</h1>
+    <p class="sub">Setel besaran guncangan dan pilih kebijakan penyangga, lalu amati bagaimana dampaknya menyebar ke seluruh Jawa Timur. Perhitungan memakai matriks Input-Output Antarkabupaten/Kota yang dibangun dari 38 wilayah dan 17 sektor.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="utama">
+
+    <!-- ================= KOLOM KENDALI ================= -->
+    <div>
+      <section class="kartu">
+        <h2 class="kartu-judul">Guncangan <span>lima kanal</span></h2>
+        <div id="preset-set" class="preset"></div>
+        <div id="slider-set"></div>
+        <button class="tbl-atur" id="reset">Kembalikan ke asumsi paper</button>
+      </section>
+
+      <section class="kartu">
+        <h2 class="kartu-judul">Kebijakan penyangga <span>aktif/nonaktif</span></h2>
+        <div id="kebijakan-set"></div>
+      </section>
+    </div>
+
+    <!-- ================= KOLOM HASIL ================= -->
+    <div>
+      <div class="papan" id="papan"></div>
+
+      <section class="kartu peta-bungkus">
+        <h2 class="kartu-judul">Sebaran dampak bersih <span id="peta-mode">terhadap output wilayah</span></h2>
+        <div class="peta" id="peta" role="img" aria-label="Peta ubin skematis 38 kabupaten/kota Jawa Timur berwarna menurut dampak bersih"></div>
+        <div class="peta-ket" id="peta-ket"></div>
+        <p class="peta-catatan">Susunan ubin mendekati posisi geografis: Madura terpisah di baris atas, Pacitan di sudut barat daya, Banyuwangi di ujung timur. Garis putus-putus menandai kota. Arahkan kursor ke ubin untuk rincian.</p>
+      </section>
+
+      <section class="narasi" id="narasi" aria-live="polite"></section>
+    </div>
+  </div>
+
+  <!-- ================= PERINGKAT ================= -->
+  <section class="seksi">
+    <div class="seksi-kop">
+      <h2 class="seksi-judul">Sepuluh wilayah paling terdampak</h2>
+      <p class="seksi-ket">Diurutkan menurut dampak bersih setelah kebijakan. Kolom kerentanan berasal dari indeks komposit paper.</p>
+    </div>
+    <div class="kartu">
+      <div class="tabel-gulir">
+        <table id="tabel-peringkat">
+          <thead><tr>
+            <th></th><th>Kabupaten/Kota</th><th style="text-align:right">Dampak bersih</th>
+            <th class="bar-sel">Proporsi</th>
+            <th style="text-align:right">% output wilayah</th>
+            <th style="text-align:right">Multiplier tani</th>
+            <th>Status pangan</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= KEBIJAKAN ================= -->
+  <section class="seksi">
+    <div class="seksi-kop">
+      <h2 class="seksi-judul">Perbandingan kebijakan</h2>
+      <p class="seksi-ket">Rasio manfaat-biaya dihitung atas nilai kini bersih dengan diskonto 8 persen, disertai rentang simulasi Monte Carlo 1.000 iterasi.</p>
+    </div>
+    <div class="kartu">
+      <div class="tabel-gulir">
+        <table id="tabel-kebijakan">
+          <thead><tr>
+            <th>Kebijakan</th>
+            <th style="text-align:right">Manfaat tahunan</th>
+            <th style="text-align:right">Biaya</th>
+            <th style="text-align:right">BCR (NPV 8%)</th>
+            <th class="bar-sel">Rentang Monte Carlo</th>
+            <th style="text-align:right">Cakupan</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="kaki">
+  <div class="wrap">
+    <div class="kaki-grid">
+      <div>
+        <div class="kaki-judul">Sumber angka</div>
+        Seluruh nilai diturunkan langsung dari keluaran notebook penelitian
+        &ldquo;Nowcasting Ketahanan Pangan, Proyeksi Ekonomi, dan Simulasi Kebijakan Jawa Timur 2026&rdquo;.
+        Tidak ada angka yang dibuat ulang di sisi peramban.
+      </div>
+      <div>
+        <div class="kaki-judul">Cara membaca simulasi</div>
+        Model Leontief bersifat linier, sehingga penskalaan besaran guncangan terhadap hasil dasar
+        sah secara matematis. Nilai di luar rentang asumsi paper perlu ditafsirkan sebagai
+        ekstrapolasi, bukan estimasi tervalidasi.
+      </div>
+      <div>
+        <div class="kaki-judul">Basis perhitungan</div>
+        Total output perekonomian Jawa Timur dalam kerangka IO-AKI:
+        Rp1.945.328&nbsp;miliar. Persentase dampak dihitung terhadap basis ini, bukan terhadap PDRB.
+      </div>
+      <div>
+        <div class="kaki-judul">Repositori</div>
+        Kode, data, dan notebook tersedia di
+        <a href="https://github.com/barata90" target="_blank" rel="noopener">github.com/barata90</a>.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="tip" role="tooltip"></div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
