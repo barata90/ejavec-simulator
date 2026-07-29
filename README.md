@@ -1,3 +1,7 @@
+[![GitHub Pages](https://img.shields.io/badge/Live%20Demo-klik%20di%20sini-brightgreen?style=flat-square&logo=github)](https://barata90.github.io/ejavec-simulator/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Research Paper](https://img.shields.io/badge/Paper-EJAVEC%202026-blue)](https://contoh-link-paper.com)
+
 # Simulator Ketahanan Pangan & Kebijakan Jawa Timur 2026
 
 Aplikasi web interaktif untuk mensimulasikan guncangan pangan dan kebijakan penyangga di
